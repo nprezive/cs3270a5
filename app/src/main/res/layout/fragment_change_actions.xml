@@ -33,6 +33,7 @@
             android:textSize="20dp"
             android:text="@string/correct_change_count"/>
         <TextView
+            android:id="@+id/txvCorrectCount"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"

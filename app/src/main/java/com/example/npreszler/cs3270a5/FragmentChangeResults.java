@@ -27,6 +27,7 @@ public class FragmentChangeResults extends Fragment {
     View rootView;
     TextView txvChangeGoal, txvCurrentChange, txvTimer;
     CountDownTimer countDownTimer;
+    BigDecimal currentChange = new BigDecimal(0);
 
 
     public interface FragChangeResultsListener {
@@ -104,6 +105,9 @@ public class FragmentChangeResults extends Fragment {
     }
 
     public void resetTimer() {
+        if (countDownTimer != null)
+            countDownTimer.cancel();
+
         countDownTimer = new CountDownTimer(30000, 1000) {
             @Override
             public void onTick(long l) {
@@ -126,4 +130,15 @@ public class FragmentChangeResults extends Fragment {
         txvChangeGoal.setText(numberFormat.format(result));
     }
 
+    public void resetCurrentChange() {
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+        txvCurrentChange.setText(numberFormat.format(0));
+        currentChange = new BigDecimal(0);
+    }
+
+    public void updateCurrentChange(BigDecimal amount) {
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+        currentChange = currentChange.add(amount);
+        txvCurrentChange.setText(numberFormat.format(currentChange));
+    }
 }

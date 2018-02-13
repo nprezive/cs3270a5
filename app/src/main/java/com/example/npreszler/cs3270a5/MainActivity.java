@@ -6,7 +6,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-public class MainActivity extends AppCompatActivity implements FragmentChangeResults.FragChangeResultsListener {
+import java.math.BigDecimal;
+
+public class MainActivity extends AppCompatActivity implements
+        FragmentChangeResults.FragChangeResultsListener,
+        FragmentChangeButtons.FragChangeButtonsListener,
+        FragmentChangeActions.FragChangeActionsListener{
 
     FragmentManager fm;
     FragmentChangeResults fragChangeResults;
@@ -45,7 +50,9 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeRes
 
     @Override
     public void onChangeTotalEqualsGoal() {
-        Log.d("test", "change total equals goal");
+        // TODO show winning dialog
+
+        fragChangeActions.updateCorrectCount();
     }
 
     @Override
@@ -56,5 +63,31 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeRes
     @Override
     public void onNoTimeRemaining() {
         Log.d("test", "no time remaining");
+    }
+
+    @Override
+    public void onButtonAmountClick(BigDecimal amount) {
+        fragChangeResults.updateCurrentChange(amount);
+    }
+
+    @Override
+    public void onStartOver() {
+        // Reset running total
+        fragChangeResults.resetCurrentChange();
+
+        // Reset time
+        fragChangeResults.resetTimer();
+    }
+
+    @Override
+    public void onNewAmount() {
+        // Reset goal
+        fragChangeResults.resetGoal(new BigDecimal(100));
+
+        // Reset running total
+        fragChangeResults.resetCurrentChange();
+
+        // Reset time
+        fragChangeResults.resetTimer();
     }
 }
