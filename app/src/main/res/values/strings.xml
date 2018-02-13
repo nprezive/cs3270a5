@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">CS3270A5</string>
+    <string name="app_name">CS3270A5 Preszler</string>
+    <string name="practice_making_change">Practice Making Change</string>
+    <string name="change_to_make">Change to make</string>
+    <string name="change_total_so_far">Change total so far</string>
+    <string name="time_remaining">Time Remaining</string>
+    <string name="start_over">START OVER</string>
+    <string name="new_amount">NEW AMOUNT</string>
+    <string name="correct_change_count">Correct change count</string>
+    <string name="_0">0</string>
 </resources>

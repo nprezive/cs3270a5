@@ -1,0 +1,42 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.npreszler.cs3270a5.FragmentChangeButtons">
+
+    <TableRow>
+        <Button
+            android:id="@+id/btn50dollar"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btn20dollar"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btn10dollar"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btn5dollar"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btn1dollar"
+            android:layout_weight="1"/>
+    </TableRow>
+    <TableRow>
+        <Button
+            android:id="@+id/btn50cent"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btn25cent"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btn10cent"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btn5cent"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btn1cent"
+            android:layout_weight="1"/>
+    </TableRow>
+
+</TableLayout>
