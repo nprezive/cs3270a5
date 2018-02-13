@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.math.BigDecimal;
 
@@ -49,6 +51,29 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_zero_correct_count:
+                zeroCorrectCount();
+                return true;
+            case R.id.action_set_change_max:
+                Log.d("test", "set change max");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onChangeTotalEqualsGoal() {
         // TODO show winning dialog
 
@@ -89,5 +114,9 @@ public class MainActivity extends AppCompatActivity implements
 
         // Reset time
         fragChangeResults.resetTimer();
+    }
+
+    public void zeroCorrectCount() {
+        fragChangeActions.zeroCorrectCount();
     }
 }

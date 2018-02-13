@@ -76,4 +76,9 @@ public class FragmentChangeActions extends Fragment {
         txvCorrectCount.setText(String.valueOf(++correctCount));
     }
 
+    public void zeroCorrectCount() {
+        correctCount = 0;
+        txvCorrectCount.setText(String.valueOf(correctCount));
+    }
+
 }

@@ -8,4 +8,6 @@
     <string name="new_amount">NEW AMOUNT</string>
     <string name="correct_change_count">Correct change count</string>
     <string name="_0">0</string>
+    <string name="zero_correct_count">Zero correct count</string>
+    <string name="set_change_max">Set change max</string>
 </resources>

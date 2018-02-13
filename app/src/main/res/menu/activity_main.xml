@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_zero_correct_count"
+        android:title="@string/zero_correct_count"
+        android:visible="true" />
+    <item
+        android:id="@+id/action_set_change_max"
+        android:title="@string/set_change_max"
+        android:visible="true" />
+</menu>
