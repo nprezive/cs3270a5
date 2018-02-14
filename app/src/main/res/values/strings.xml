@@ -19,4 +19,5 @@
     <string name="maximum_change_amount">Maximum change amount</string>
     <string name="save">SAVE</string>
     <string name="max_amount_cant_be_blank">Max amount cannot be blank</string>
+    <string name="x_30">30</string>
 </resources>

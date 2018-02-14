@@ -2,6 +2,8 @@ package com.example.npreszler.cs3270a5;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,7 @@ public class FragmentChangeResults extends Fragment {
     CountDownTimer countDownTimer;
     BigDecimal currentChange = new BigDecimal(0);
     BigDecimal maxGoal = new BigDecimal(100);
+    long tick;
 
 
     public interface FragChangeResultsListener {
@@ -53,6 +56,40 @@ public class FragmentChangeResults extends Fragment {
             throw new ClassCastException(activity.toString() +
                     " must implement FragChangeResultsListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+
+        SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
+        txvChangeGoal.setText(sp.getString("changeGoal", numberFormat.format(
+                (new BigDecimal(100)).multiply(new BigDecimal(Math.random())))));
+        txvCurrentChange.setText(sp.getString("currentChange", numberFormat.format(0)));
+        txvTimer.setText(sp.getString("timer", getString(R.string.x_30)));
+        currentChange = new BigDecimal(sp.getString("bdCurrentChange", getString(R.string._0)));
+        maxGoal = new BigDecimal(sp.getString("bdMaxGoal", getString(R.string._0)));
+        tick = sp.getLong("tick", 30000);
+
+        resetTimer(tick);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        countDownTimer.cancel();
+
+        SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
+        sp.edit()
+                .putString("changeGoal", txvChangeGoal.getText().toString())
+                .putString("currentChange", txvCurrentChange.getText().toString())
+                .putString("timer", txvTimer.getText().toString())
+                .putString("bdCurrentChange", currentChange.toString())
+                .putString("bdMaxGoal", maxGoal.toString())
+                .putLong("tick", tick)
+                .commit();
     }
 
     @Override
@@ -97,20 +134,21 @@ public class FragmentChangeResults extends Fragment {
             }
         });
 
-        resetTimer();
+//        resetTimer(30000);
 
         resetGoal(maxGoal);
 
         return rootView;
     }
 
-    public void resetTimer() {
+    public void resetTimer(long input) {
         if (countDownTimer != null)
             countDownTimer.cancel();
 
-        countDownTimer = new CountDownTimer(30000, 1000) {
+        countDownTimer = new CountDownTimer(input, 1000) {
             @Override
             public void onTick(long l) {
+                tick = l;
                 txvTimer.setText(String.valueOf(l/1000));
             }
 

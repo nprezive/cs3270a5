@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements
     FragmentChangeResults fragChangeResults;
     FragmentChangeButtons fragChangeButtons;
     FragmentChangeActions fragChangeActions;
-    BigDecimal maxChange;
+    BigDecimal maxChange = new BigDecimal(100);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onChangeTotalEqualsGoal() {
+        if(fragChangeResults == null || fragChangeActions == null)
+            return;
+
         fragChangeResults.stopTimer();
         fragChangeActions.updateCorrectCount();
         FragmentWinDialog dialog = new FragmentWinDialog();
@@ -85,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onChangeTotalExceedsGoal() {
+        if(fragChangeResults == null)
+            return;
+
         fragChangeResults.stopTimer();
         FragmentChangeExceedsGoal dialog = new FragmentChangeExceedsGoal();
         dialog.show(fm, "fragChangeExceedsGoal");
@@ -92,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onNoTimeRemaining() {
+        if(fragChangeResults == null)
+            return;
+
         fragChangeResults.stopTimer();
         FragmentTooLong dialog = new FragmentTooLong();
         dialog.show(fm, "fragmentTooLong");
@@ -99,20 +108,29 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onButtonAmountClick(BigDecimal amount) {
+        if(fragChangeResults == null)
+            return;
+
         fragChangeResults.updateCurrentChange(amount);
     }
 
     @Override
     public void onStartOver() {
+        if(fragChangeResults == null)
+            return;
+
         // Reset running total
         fragChangeResults.resetCurrentChange();
 
         // Reset time
-        fragChangeResults.resetTimer();
+        fragChangeResults.resetTimer(30000);
     }
 
     @Override
     public void onNewAmount() {
+        if(fragChangeResults == null)
+            return;
+
         // Reset maxGoal
         fragChangeResults.resetGoal(maxChange);
 
@@ -120,21 +138,30 @@ public class MainActivity extends AppCompatActivity implements
         fragChangeResults.resetCurrentChange();
 
         // Reset time
-        fragChangeResults.resetTimer();
+        fragChangeResults.resetTimer(30000);
     }
 
     public void zeroCorrectCount() {
+        if(fragChangeActions == null)
+            return;
+
         fragChangeActions.zeroCorrectCount();
     }
 
     @Override
     public void resetGame() {
+        if(fragChangeResults == null)
+            return;
+
         fragChangeResults.resetCurrentChange();
         fragChangeResults.resetGoal(maxChange);
-        fragChangeResults.resetTimer();
+        fragChangeResults.resetTimer(30000);
     }
 
     public void loadFragSetChangeMax() {
+        if(fragChangeResults == null || fragChangeButtons == null || fragChangeActions == null)
+            return;
+
         fragChangeResults.stopTimer();
         fm.beginTransaction()
                 .replace(R.id.frameChangeResults,
@@ -147,6 +174,9 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onSetMaxChange(BigDecimal max) {
+        if(fragChangeResults == null)
+            return;
+
         maxChange = max;
         fm.beginTransaction()
                 .replace(R.id.frameChangeResults, fragChangeResults)

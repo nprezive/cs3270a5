@@ -2,6 +2,8 @@ package com.example.npreszler.cs3270a5;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -42,6 +44,25 @@ public class FragmentChangeActions extends Fragment {
             throw new ClassCastException(activity.toString() +
                     " must implement FragChangeActionsListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
+        correctCount = sp.getInt("correctCount", 0);
+        txvCorrectCount.setText(String.valueOf(correctCount));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
+        sp.edit()
+                .putInt("correctCount", correctCount)
+                .commit();
     }
 
     @Override
