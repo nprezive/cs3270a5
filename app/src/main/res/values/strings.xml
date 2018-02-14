@@ -10,4 +10,13 @@
     <string name="_0">0</string>
     <string name="zero_correct_count">Zero correct count</string>
     <string name="set_change_max">Set change max</string>
+    <string name="thats_too_much_change">That\'s too much change.</string>
+    <string name="you_should_try_again">You should try again</string>
+    <string name="you_did_it">You did it!</string>
+    <string name="you_were_able_to_make_the_correct_change">You were able to make the correct change.</string>
+    <string name="OK">OK</string>
+    <string name="you_took_too_long">You took too long.</string>
+    <string name="maximum_change_amount">Maximum change amount</string>
+    <string name="save">SAVE</string>
+    <string name="max_amount_cant_be_blank">Max amount cannot be blank</string>
 </resources>

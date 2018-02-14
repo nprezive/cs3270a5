@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
@@ -28,6 +27,7 @@ public class FragmentChangeResults extends Fragment {
     TextView txvChangeGoal, txvCurrentChange, txvTimer;
     CountDownTimer countDownTimer;
     BigDecimal currentChange = new BigDecimal(0);
+    BigDecimal maxGoal = new BigDecimal(100);
 
 
     public interface FragChangeResultsListener {
@@ -99,7 +99,7 @@ public class FragmentChangeResults extends Fragment {
 
         resetTimer();
 
-        resetGoal(new BigDecimal(100));
+        resetGoal(maxGoal);
 
         return rootView;
     }
@@ -141,4 +141,9 @@ public class FragmentChangeResults extends Fragment {
         currentChange = currentChange.add(amount);
         txvCurrentChange.setText(numberFormat.format(currentChange));
     }
+
+    public void stopTimer() {
+        countDownTimer.cancel();
+    }
+
 }

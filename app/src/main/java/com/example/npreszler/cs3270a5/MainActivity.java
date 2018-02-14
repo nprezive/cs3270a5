@@ -4,7 +4,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,12 +12,15 @@ import java.math.BigDecimal;
 public class MainActivity extends AppCompatActivity implements
         FragmentChangeResults.FragChangeResultsListener,
         FragmentChangeButtons.FragChangeButtonsListener,
-        FragmentChangeActions.FragChangeActionsListener{
+        FragmentChangeActions.FragChangeActionsListener,
+        DialogFragListener,
+        FragmentSetMaxChange.FragmentSetMaxChangeListener{
 
     FragmentManager fm;
     FragmentChangeResults fragChangeResults;
     FragmentChangeButtons fragChangeButtons;
     FragmentChangeActions fragChangeActions;
+    BigDecimal maxChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements
                 zeroCorrectCount();
                 return true;
             case R.id.action_set_change_max:
-                Log.d("test", "set change max");
+                loadFragSetChangeMax();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -75,19 +77,24 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onChangeTotalEqualsGoal() {
-        // TODO show winning dialog
-
+        fragChangeResults.stopTimer();
         fragChangeActions.updateCorrectCount();
+        FragmentWinDialog dialog = new FragmentWinDialog();
+        dialog.show(fm, "fragWinDialog");
     }
 
     @Override
     public void onChangeTotalExceedsGoal() {
-        Log.d("test", "change total exceeds goal");
+        fragChangeResults.stopTimer();
+        FragmentChangeExceedsGoal dialog = new FragmentChangeExceedsGoal();
+        dialog.show(fm, "fragChangeExceedsGoal");
     }
 
     @Override
     public void onNoTimeRemaining() {
-        Log.d("test", "no time remaining");
+        fragChangeResults.stopTimer();
+        FragmentTooLong dialog = new FragmentTooLong();
+        dialog.show(fm, "fragmentTooLong");
     }
 
     @Override
@@ -106,8 +113,8 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onNewAmount() {
-        // Reset goal
-        fragChangeResults.resetGoal(new BigDecimal(100));
+        // Reset maxGoal
+        fragChangeResults.resetGoal(maxChange);
 
         // Reset running total
         fragChangeResults.resetCurrentChange();
@@ -118,5 +125,34 @@ public class MainActivity extends AppCompatActivity implements
 
     public void zeroCorrectCount() {
         fragChangeActions.zeroCorrectCount();
+    }
+
+    @Override
+    public void resetGame() {
+        fragChangeResults.resetCurrentChange();
+        fragChangeResults.resetGoal(maxChange);
+        fragChangeResults.resetTimer();
+    }
+
+    public void loadFragSetChangeMax() {
+        fragChangeResults.stopTimer();
+        fm.beginTransaction()
+                .replace(R.id.frameChangeResults,
+                        new FragmentSetMaxChange(), "fragSetMaxChange")
+                .hide(fragChangeButtons)
+                .hide(fragChangeActions)
+                .addToBackStack("fragSetMaxChange")
+                .commit();
+    }
+
+    @Override
+    public void onSetMaxChange(BigDecimal max) {
+        maxChange = max;
+        fm.beginTransaction()
+                .replace(R.id.frameChangeResults, fragChangeResults)
+                .show(fragChangeButtons)
+                .show(fragChangeActions)
+                .commit();
+        fragChangeResults.resetGoal(max);
     }
 }
